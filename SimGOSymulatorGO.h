@@ -19,6 +19,7 @@ class SimGOSymulatorGO : public SymulatorGO
 	//// end generated class members
 
 
+
 };
 
 #endif // __SimGOSymulatorGO__

@@ -18,6 +18,7 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/checkbox.h>
 #include <wx/statline.h>
 #include <wx/stattext.h>
 #include <wx/slider.h>
@@ -38,6 +39,7 @@ class SymulatorGO : public wxFrame
 	protected:
 		wxButton* m_button1;
 		wxButton* m_button2;
+		wxCheckBox* m_checkBox1;
 		wxStaticLine* m_staticline1;
 		wxStaticText* m_staticText1;
 		wxSlider* m_slider1;
