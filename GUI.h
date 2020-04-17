@@ -43,8 +43,6 @@ class SymulatorGO : public wxFrame
 		wxSlider* m_slider1;
 		wxStaticText* m_staticText2;
 		wxSlider* m_slider2;
-		wxStaticText* m_staticText6;
-		wxSlider* m_slider3;
 		wxStaticLine* m_staticline2;
 		wxButton* m_button3;
 		wxButton* m_button4;

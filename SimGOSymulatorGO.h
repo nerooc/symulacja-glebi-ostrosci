@@ -18,6 +18,7 @@ class SimGOSymulatorGO : public SymulatorGO
 		SimGOSymulatorGO( wxWindow* parent );
 	//// end generated class members
 
+
 };
 
 #endif // __SimGOSymulatorGO__

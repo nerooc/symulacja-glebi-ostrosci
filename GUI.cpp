@@ -69,16 +69,6 @@ SymulatorGO::SymulatorGO( wxWindow* parent, wxWindowID id, const wxString& title
 
 	bSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_staticText6 = new wxStaticText( this, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText6->Wrap( -1 );
-	bSizer2->Add( m_staticText6, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
-
-	m_slider3 = new wxSlider( this, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxSize( 200,-1 ), wxSL_HORIZONTAL );
-	bSizer2->Add( m_slider3, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
-
-
-	bSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
-
 	m_staticline2 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
 	bSizer2->Add( m_staticline2, 0, wxEXPAND | wxALL, 5 );
 
