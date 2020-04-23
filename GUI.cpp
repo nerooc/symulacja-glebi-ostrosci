@@ -163,8 +163,116 @@ SymulatorGO::SymulatorGO( wxWindow* parent, wxWindowID id, const wxString& title
 	this->Layout();
 
 	this->Centre( wxBOTH );
+
+	// Connect Events
+	m_button1->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SymulatorGO::loadImage ), NULL, this );
+	m_button2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SymulatorGO::loadDepthMap ), NULL, this );
+	m_checkBox1->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SymulatorGO::mapOn ), NULL, this );
+	m_slider1->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider2->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_button3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SymulatorGO::resetImage ), NULL, this );
+	m_button4->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SymulatorGO::saveImage ), NULL, this );
+	m_panel1->Connect( wxEVT_SIZE, wxSizeEventHandler( SymulatorGO::windowResized ), NULL, this );
+	m_panel1->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( SymulatorGO::updateUI ), NULL, this );
+	m_slider4->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider5->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider6->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Connect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Connect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Connect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Connect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Connect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Connect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
 }
 
 SymulatorGO::~SymulatorGO()
 {
+	// Disconnect Events
+	m_button1->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SymulatorGO::loadImage ), NULL, this );
+	m_button2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SymulatorGO::loadDepthMap ), NULL, this );
+	m_checkBox1->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SymulatorGO::mapOn ), NULL, this );
+	m_slider1->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider1->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( SymulatorGO::lensOnScroll ), NULL, this );
+	m_slider2->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_slider2->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( SymulatorGO::apertureOnScroll ), NULL, this );
+	m_button3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SymulatorGO::resetImage ), NULL, this );
+	m_button4->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SymulatorGO::saveImage ), NULL, this );
+	m_panel1->Disconnect( wxEVT_SIZE, wxSizeEventHandler( SymulatorGO::windowResized ), NULL, this );
+	m_panel1->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( SymulatorGO::updateUI ), NULL, this );
+	m_slider4->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider4->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( SymulatorGO::gammaCorrection ), NULL, this );
+	m_slider5->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider5->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( SymulatorGO::setContrast ), NULL, this );
+	m_slider6->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Disconnect( wxEVT_SCROLL_LINEDOWN, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Disconnect( wxEVT_SCROLL_PAGEUP, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Disconnect( wxEVT_SCROLL_PAGEDOWN, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Disconnect( wxEVT_SCROLL_THUMBTRACK, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Disconnect( wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+	m_slider6->Disconnect( wxEVT_SCROLL_CHANGED, wxScrollEventHandler( SymulatorGO::setBrightness ), NULL, this );
+
 }

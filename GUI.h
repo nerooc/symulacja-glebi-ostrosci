@@ -56,6 +56,21 @@ class SymulatorGO : public wxFrame
 		wxStaticText* m_staticText9;
 		wxSlider* m_slider6;
 
+		// Virtual event handlers, overide them in your derived class
+		virtual void loadImage( wxCommandEvent& event ) { event.Skip(); }
+		virtual void loadDepthMap( wxCommandEvent& event ) { event.Skip(); }
+		virtual void mapOn( wxCommandEvent& event ) { event.Skip(); }
+		virtual void lensOnScroll( wxScrollEvent& event ) { event.Skip(); }
+		virtual void apertureOnScroll( wxScrollEvent& event ) { event.Skip(); }
+		virtual void resetImage( wxCommandEvent& event ) { event.Skip(); }
+		virtual void saveImage( wxCommandEvent& event ) { event.Skip(); }
+		virtual void windowResized( wxSizeEvent& event ) { event.Skip(); }
+		virtual void updateUI( wxUpdateUIEvent& event ) { event.Skip(); }
+		virtual void gammaCorrection( wxScrollEvent& event ) { event.Skip(); }
+		virtual void setContrast( wxScrollEvent& event ) { event.Skip(); }
+		virtual void setBrightness( wxScrollEvent& event ) { event.Skip(); }
+
+
 	public:
 
 		SymulatorGO( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1300,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
