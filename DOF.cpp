@@ -3,7 +3,6 @@
 
 #define iter(i,j) (i*sizeX+ j)*3
 
-
 DOF::~DOF()
 {
 	freeSAT();
@@ -19,7 +18,7 @@ void DOF::setDepthImage(const wxImage& img)
 	depth = img;
 }
 
-void DOF::updateFinalImage()
+void DOF::calculate_SAT_DOF()
 {
 	if (original.GetSize().x != depth.GetSize().x || original.GetSize().y != depth.GetSize().y)
 	{
@@ -46,6 +45,21 @@ void DOF::setFocalDistance(unsigned char dis)
 void DOF::setFocalDepth(float val)
 {
 	focal_depth = val;
+}
+
+unsigned char DOF::getFocalDistance() const
+{
+	return focal_distance;
+}
+
+float DOF::getFocalDepth() const
+{
+	return focal_depth;
+}
+
+float DOF::getMaxFocalDepth() const
+{
+	return max_focal_depth;
 }
 
 wxImage& DOF::getOriginalImg()
@@ -146,12 +160,12 @@ void DOF::calculateDOF()
 			// r - "promien" filtra,	"promien" bo filtra bedzie kwadratem, a nie kolem
 			float r; 
 
-			r = fabs(depthData[iter(i, j)] - focal_distance) / 255. * focal_depth;
+			r = fabs(depthData[iter(i, j)] - focal_distance) / 255. * focal_depth;	//(130 - 112)/255 * 12
 
 			//	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			//r = ceil(r);	
 			//r = floor(r);
-			r = round(r);
+			r = round(r); 
 			//	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			
 
@@ -165,6 +179,7 @@ void DOF::calculateDOF()
 
 			if (r == 0) {
 
+				//specialny przypadek
 				if (i == 0 || j == 0) {
 					if (i == 0 && j == 0) {
 						finalData[iter(i, j)] = SAT[0][0][0];
@@ -185,7 +200,7 @@ void DOF::calculateDOF()
 					continue;
 				}
 				else {
-					P0 = wxPoint(clamp(j - 1, 0, sizeY - 1), clamp(i - 1, 0, sizeY - 1));
+					P0 = wxPoint(clamp(j - 1, 0, sizeX - 1), clamp(i - 1, 0, sizeY - 1));
 					P1 = wxPoint(clamp(j - 1, 0, sizeX - 1), i);
 					P2 = wxPoint(j, clamp(i - 1, 0, sizeY - 1));
 					P3 = wxPoint(j, i);
@@ -193,11 +208,35 @@ void DOF::calculateDOF()
 				}
 			}
 			else
-			{
+			{	
+				//specialny przypadek
+				if (r == 1) {
+					if (i == 0 || j == 0) {
+						if (i == 0 && j == 0) {
+							finalData[iter(i, j)] = SAT[0][0][0];
+							finalData[iter(i, j) + 1] = SAT[0][0][1];
+							finalData[iter(i, j) + 2] = SAT[0][0][2];
+						}
+						else if (i == 0) {
+							finalData[iter(i, j)] = SAT[j][0][0] - SAT[j - 1][0][0];
+							finalData[iter(i, j) + 1] = SAT[j][0][1] - SAT[j - 1][0][1];
+							finalData[iter(i, j) + 2] = SAT[j][0][2] - SAT[j - 1][0][2];
+
+						}
+						else if (j == 0) {
+							finalData[iter(i, j)] = SAT[0][i][0] - SAT[0][i - 1][0];
+							finalData[iter(i, j) + 1] = SAT[0][i][1] - SAT[0][i - 1][1];
+							finalData[iter(i, j) + 2] = SAT[0][i][2] - SAT[0][i - 1][2];
+						}
+						continue;
+					}
+				}   
+
+
 				P0 = wxPoint(clamp(j - r, 0, sizeX - 1), clamp(i - r, 0, sizeY - 1));
-				P1 = wxPoint(clamp(j - r, 0, sizeX - 1), clamp(i + r, 0, sizeY - 1));
-				P2 = wxPoint(clamp(j + r, 0, sizeX - 1), clamp(i - r, 0, sizeY - 1));
-				P3 = wxPoint(clamp(j + r, 0, sizeX - 1), clamp(i + r, 0, sizeY - 1));
+				P1 = wxPoint(clamp(j - r, 0, sizeX - 1), clamp(i + r - 1, 0, sizeY - 1));
+				P2 = wxPoint(clamp(j + r - 1, 0, sizeX - 1), clamp(i - r, 0, sizeY - 1));
+				P3 = wxPoint(clamp(j + r - 1, 0, sizeX - 1), clamp(i + r - 1, 0, sizeY - 1));
 
 				sideX = P3.x - P0.x;    sideX = sideX == 0 ? 1 : sideX;
 				sideY = P3.y - P0.y;    sideY = sideY == 0 ? 1 : sideY;
