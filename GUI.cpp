@@ -11,7 +11,7 @@
 
 SymulatorGO::SymulatorGO( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetSizeHints( wxSize( 1300,600 ), wxSize( 1300,600 ) );
 
 	wxBoxSizer* Sizer1;
 	Sizer1 = new wxBoxSizer( wxHORIZONTAL );
@@ -31,7 +31,7 @@ SymulatorGO::SymulatorGO( wxWindow* parent, wxWindowID id, const wxString& title
 
 	bSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_button2 = new wxButton( this, wxID_ANY, wxT("Wczytaj mapę głębokości"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_button2 = new wxButton( this, wxID_ANY, wxT("Wczytaj mape glebokosci"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
 	m_button2->SetMinSize( wxSize( 200,-1 ) );
 
 	bSizer2->Add( m_button2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
@@ -39,7 +39,7 @@ SymulatorGO::SymulatorGO( wxWindow* parent, wxWindowID id, const wxString& title
 
 	bSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_checkBox1 = new wxCheckBox( this, wxID_ANY, wxT("Mapa głębkości"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_checkBox1 = new wxCheckBox( this, wxID_ANY, wxT("Mapa glebokosci"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer2->Add( m_checkBox1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 
 
@@ -63,7 +63,7 @@ SymulatorGO::SymulatorGO( wxWindow* parent, wxWindowID id, const wxString& title
 
 	bSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_staticText2 = new wxStaticText( this, wxID_ANY, wxT("Przysłona"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText2 = new wxStaticText( this, wxID_ANY, wxT("Przyslona"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText2->Wrap( -1 );
 	bSizer2->Add( m_staticText2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 
@@ -110,7 +110,7 @@ SymulatorGO::SymulatorGO( wxWindow* parent, wxWindowID id, const wxString& title
 	bSizer3->Add( m_panel1, 1, wxEXPAND | wxALL, 0 );
 
 
-	Sizer1->Add( bSizer3, 1, wxEXPAND, 0 );
+	Sizer1->Add( bSizer3, 3, wxEXPAND, 0 );
 
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer( wxVERTICAL );
@@ -143,7 +143,7 @@ SymulatorGO::SymulatorGO( wxWindow* parent, wxWindowID id, const wxString& title
 
 	bSizer4->Add( 0, 0, 1, wxEXPAND, 5 );
 
-	m_staticText9 = new wxStaticText( this, wxID_ANY, wxT("Jasność"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText9 = new wxStaticText( this, wxID_ANY, wxT("Jasnosc"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText9->Wrap( -1 );
 	bSizer4->Add( m_staticText9, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 
