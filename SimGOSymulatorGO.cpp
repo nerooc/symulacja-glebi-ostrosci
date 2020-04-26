@@ -191,7 +191,38 @@ dof.calculateDOF();
 
 void SimGOSymulatorGO::saveImage( wxCommandEvent& event )
 {
-	// TODO: Implement saveImage
+	if (dof.getFinalImg().IsOk()) 
+	{
+		wxTextEntryDialog* textEntry = new wxTextEntryDialog(this, "Podaj nazwê pliku");
+		textEntry->ShowModal();
+	
+		std::string fileName;
+		while (textEntry) 
+		{
+			if (!textEntry->IsActive()) 
+			{
+				fileName = textEntry->GetValue();
+				delete textEntry;
+				textEntry = nullptr;
+			}
+		}
+
+		dof.getFinalImg().SaveFile(fileName + ".bmp");
+	}
+	else 
+	{
+		wxMessageDialog* message = new wxMessageDialog(this, "za³aduj obraz");
+		message->ShowModal();
+
+		while (message) 
+		{
+			if (!message->IsActive()) 
+			{
+				delete message;
+				message = nullptr;
+			}
+		}
+	}
 }
 
 void SimGOSymulatorGO::windowResized( wxSizeEvent& event )
