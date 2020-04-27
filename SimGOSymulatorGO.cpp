@@ -26,123 +26,136 @@ SymulatorGO( parent )
 
 void SimGOSymulatorGO::loadImage( wxCommandEvent& event )
 {
-// TODO: Implement loadImage
+	// TODO: Implement loadImage
 
-depthScaledMap.Destroy();
+	depthScaledMap.Destroy();
 
-translationX = 0;
-translationY = 0;
+	translationX = 0;
+	translationY = 0;
 
-wxImage img;
-wxImage scaledImage;
+	wxImage img;
+	wxImage scaledImage;
 
-img.AddHandler(new wxJPEGHandler);
-img.AddHandler(new wxPNGHandler);
+	img.AddHandler(new wxJPEGHandler);
+	img.AddHandler(new wxPNGHandler);
 
-//DOLACZANIE PLIKU PRZEZ WXFILEDIALOG///////////////////////////////////////////////////////////////////////////////////////
-wxFileDialog WxOpenFileDialog(this, wxT("Wybierz obraz:"), wxT(""), wxT(""), wxT("JPG file (*.jpg)|*.jpg|PNG file (*.png) |*.png"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+	//DOLACZANIE PLIKU PRZEZ WXFILEDIALOG///////////////////////////////////////////////////////////////////////////////////////
+	wxFileDialog WxOpenFileDialog(this, wxT("Wybierz obraz:"), wxT(""), wxT(""), wxT("JPG file (*.jpg)|*.jpg|PNG file (*.png) |*.png"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
-if (WxOpenFileDialog.ShowModal() == wxID_OK) {
+	if (WxOpenFileDialog.ShowModal() == wxID_OK) {
 
-if (img.LoadFile(WxOpenFileDialog.GetPath())) {
-img.LoadFile(WxOpenFileDialog.GetPath());
+		if (img.LoadFile(WxOpenFileDialog.GetPath())) {
+			img.LoadFile(WxOpenFileDialog.GetPath());
 
-depthMap.Destroy();
-mainImage = img;
+			depthMap.Destroy();
+			mainImage = img;
 
-double imgHeight = imageHeight = img.GetSize().GetHeight();
-double imgWidth = imageWidth = img.GetSize().GetWidth();
+			double imgHeight = imageHeight = img.GetSize().GetHeight();
+			double imgWidth = imageWidth = img.GetSize().GetWidth();
 
-if (imgHeight > imgWidth) {
-	double ratio = imgWidth / imgHeight;
-	scaledImage = img.Scale(panelHeight * ratio, panelHeight);
-	translationX = (panelWidth - scaledImage.GetSize().GetWidth()) / 2;
-}
-else {
+			if (imgHeight > imgWidth) {
+				double ratio = imgWidth / imgHeight;
+				scaledImage = img.Scale(panelHeight * ratio, panelHeight);
+				translationX = (panelWidth - scaledImage.GetSize().GetWidth()) / 2;
+			}
+			else {
+				double ratio = imgHeight / imgWidth;
+				scaledImage = img.Scale(panelWidth, panelWidth * ratio);
+				translationY = (panelHeight - scaledImage.GetSize().GetHeight()) / 2;
+			}
 
-	double ratio = imgHeight / imgWidth;
-	scaledImage = img.Scale(panelWidth, panelWidth * ratio);
-	translationY = (panelHeight - scaledImage.GetSize().GetHeight()) / 2;
-}
-}
-else {
+				
 
-wxMessageBox(_("ERROR - Plik nie mogl zostac zaladowany"));
+		} else {
 
-}
-}
+		wxMessageBox(_("ERROR - Plik nie mogl zostac zaladowany"));
 
-mainScaledImage = scaledImage;
-dof.setOriginalImage(mainScaledImage);
-Repaint();
+		}
+
+		
+	}
+	mainScaledImage = scaledImage;
+	dof.setOriginalImage(mainScaledImage);
+	Repaint();
+
 }
 
 void SimGOSymulatorGO::loadDepthMap( wxCommandEvent& event )
 {
-// TODO: Implement loadDepthMap
-wxImage img;
-wxImage scaledImage;
+	// TODO: Implement loadDepthMap
+	wxImage img;
+	wxImage scaledImage;
 
-img.AddHandler(new wxJPEGHandler);
-img.AddHandler(new wxPNGHandler);
+	img.AddHandler(new wxJPEGHandler);
+	img.AddHandler(new wxPNGHandler);
 
-wxFileDialog WxOpenFileDialog(this, wxT("Wybierz mape glebii:"), wxT(""), wxT(""), wxT("JPG file (*.jpg)|*.jpg|PNG file (*.png) |*.png"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+	wxFileDialog WxOpenFileDialog(this, wxT("Wybierz mape glebii:"), wxT(""), wxT(""), wxT("JPG file (*.jpg)|*.jpg|PNG file (*.png) |*.png"), wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
-if (WxOpenFileDialog.ShowModal() == wxID_OK) {
+	if (mainScaledImage.IsOk()) {
 
-if (img.LoadFile(WxOpenFileDialog.GetPath())) {
-img.LoadFile(WxOpenFileDialog.GetPath());
+	if (WxOpenFileDialog.ShowModal() == wxID_OK) {
 
-depthMap = img;
+		if (img.LoadFile(WxOpenFileDialog.GetPath())) {
+			img.LoadFile(WxOpenFileDialog.GetPath());
 
-double imgHeight = img.GetSize().GetHeight();
-double imgWidth = img.GetSize().GetWidth();
+			depthMap = img;
 
-if ((imgHeight != imageHeight) && (imgWidth != imageWidth)) {
+			double imgHeight = img.GetSize().GetHeight();
+			double imgWidth = img.GetSize().GetWidth();
 
-	wxMessageBox(_("ERROR - Zla mapa glebokosci (rozmiary sie nie pokrywaja)"));
-	img.Destroy();
-	depthScaledMap.Destroy();
 
-}
-else {
+			
 
-	if (imgHeight > imgWidth) {
+				if ((imgHeight != imageHeight) && (imgWidth != imageWidth)) {
 
-		double ratio = imgWidth / imgHeight;
-		scaledImage = img.Scale(panelHeight * ratio, panelHeight);
-		translationX = (panelWidth - scaledImage.GetSize().GetWidth()) / 2;
+					wxMessageBox(_("ERROR - Zla mapa glebokosci (rozmiary sie nie pokrywaja)"));
+					img.Destroy();
+					depthScaledMap.Destroy();
+
+				}
+				else {
+
+					if (imgHeight > imgWidth) {
+
+						double ratio = imgWidth / imgHeight;
+						scaledImage = img.Scale(panelHeight * ratio, panelHeight);
+						translationX = (panelWidth - scaledImage.GetSize().GetWidth()) / 2;
+
+					}
+					else {
+
+						double ratio = imgHeight / imgWidth;
+						scaledImage = img.Scale(panelWidth, panelWidth * ratio);
+						translationY = (panelHeight - scaledImage.GetSize().GetHeight()) / 2;
+
+					}
+
+				}
+			
+		} else {
+
+		wxMessageBox(_("ERROR - Plik nie mogl zostac zaladowany"));
+
+		}
+
+		
+		depthScaledMap = scaledImage;
+		dof.setDepthImage(depthScaledMap);
+		dof.calculate_SAT_DOF();
+
+		wxMessageBox(_("Mapa zaladowana pomyslnie!"));
+
+
+		Repaint();
+
+	}
+
 
 	}
 	else {
-
-		double ratio = imgHeight / imgWidth;
-		scaledImage = img.Scale(panelWidth, panelWidth * ratio);
-		translationY = (panelHeight - scaledImage.GetSize().GetHeight()) / 2;
+		wxMessageBox(_("ERROR - Najpierw wczytaj zdjecie"));
 
 	}
-
-
-}
-}
-else {
-
-wxMessageBox(_("ERROR - Plik nie mogl zostac zaladowany"));
-
-}
-
-
-depthScaledMap = scaledImage;
-dof.setDepthImage(depthScaledMap);
-dof.calculate_SAT_DOF();
-
-wxMessageBox(_("Mapa zaladowana pomyslnie!"));
-
-
-Repaint();
-}
-
-
 }
 
 void SimGOSymulatorGO::mapOn( wxCommandEvent& event )
