@@ -67,6 +67,11 @@ wxImage& DOF::getOriginalImg()
 	return original;
 }
 
+wxImage& DOF::getBlurredImg()
+{
+	return blurred;
+}
+
 wxImage& DOF::getFinalImg()
 {
 	return final;
@@ -147,10 +152,10 @@ int clamp(int x, int minVal, int maxVal) {
 
 void DOF::calculateDOF()
 {
+	blurred.Create(sizeX, sizeY);
 	final.Create(sizeX, sizeY);
-
 	unsigned char* depthData = depth.GetData();
-	unsigned char* finalData = final.GetData();
+	unsigned char* blurredData = blurred.GetData();
 
 	for (int i = 0; i < sizeY; i++)
 	{
@@ -182,20 +187,20 @@ void DOF::calculateDOF()
 				//specialny przypadek
 				if (i == 0 || j == 0) {
 					if (i == 0 && j == 0) {
-						finalData[iter(i, j)] = SAT[0][0][0];
-						finalData[iter(i, j) + 1] = SAT[0][0][1];
-						finalData[iter(i, j) + 2] = SAT[0][0][2];
+						blurredData[iter(i, j)] = SAT[0][0][0];
+						blurredData[iter(i, j) + 1] = SAT[0][0][1];
+						blurredData[iter(i, j) + 2] = SAT[0][0][2];
 					}
 					else if (i == 0) {
-						finalData[iter(i, j)] = SAT[j][0][0] - SAT[j - 1][0][0];
-						finalData[iter(i, j) + 1] = SAT[j][0][1] - SAT[j - 1][0][1];
-						finalData[iter(i, j) + 2] = SAT[j][0][2] - SAT[j - 1][0][2];
+						blurredData[iter(i, j)] = SAT[j][0][0] - SAT[j - 1][0][0];
+						blurredData[iter(i, j) + 1] = SAT[j][0][1] - SAT[j - 1][0][1];
+						blurredData[iter(i, j) + 2] = SAT[j][0][2] - SAT[j - 1][0][2];
 
 					}
 					else if (j == 0) {
-						finalData[iter(i, j)] = SAT[0][i][0] - SAT[0][i-1][0];
-						finalData[iter(i, j) + 1] = SAT[0][i][1] - SAT[0][i - 1][1];
-						finalData[iter(i, j) + 2] = SAT[0][i][2] - SAT[0][i - 1][2];
+						blurredData[iter(i, j)] = SAT[0][i][0] - SAT[0][i-1][0];
+						blurredData[iter(i, j) + 1] = SAT[0][i][1] - SAT[0][i - 1][1];
+						blurredData[iter(i, j) + 2] = SAT[0][i][2] - SAT[0][i - 1][2];
 					}
 					continue;
 				}
@@ -213,20 +218,20 @@ void DOF::calculateDOF()
 				if (r == 1) {
 					if (i == 0 || j == 0) {
 						if (i == 0 && j == 0) {
-							finalData[iter(i, j)] = SAT[0][0][0];
-							finalData[iter(i, j) + 1] = SAT[0][0][1];
-							finalData[iter(i, j) + 2] = SAT[0][0][2];
+							blurredData[iter(i, j)] = SAT[0][0][0];
+							blurredData[iter(i, j) + 1] = SAT[0][0][1];
+							blurredData[iter(i, j) + 2] = SAT[0][0][2];
 						}
 						else if (i == 0) {
-							finalData[iter(i, j)] = SAT[j][0][0] - SAT[j - 1][0][0];
-							finalData[iter(i, j) + 1] = SAT[j][0][1] - SAT[j - 1][0][1];
-							finalData[iter(i, j) + 2] = SAT[j][0][2] - SAT[j - 1][0][2];
+							blurredData[iter(i, j)] = SAT[j][0][0] - SAT[j - 1][0][0];
+							blurredData[iter(i, j) + 1] = SAT[j][0][1] - SAT[j - 1][0][1];
+							blurredData[iter(i, j) + 2] = SAT[j][0][2] - SAT[j - 1][0][2];
 
 						}
 						else if (j == 0) {
-							finalData[iter(i, j)] = SAT[0][i][0] - SAT[0][i - 1][0];
-							finalData[iter(i, j) + 1] = SAT[0][i][1] - SAT[0][i - 1][1];
-							finalData[iter(i, j) + 2] = SAT[0][i][2] - SAT[0][i - 1][2];
+							blurredData[iter(i, j)] = SAT[0][i][0] - SAT[0][i - 1][0];
+							blurredData[iter(i, j) + 1] = SAT[0][i][1] - SAT[0][i - 1][1];
+							blurredData[iter(i, j) + 2] = SAT[0][i][2] - SAT[0][i - 1][2];
 						}
 						continue;
 					}
@@ -270,9 +275,10 @@ void DOF::calculateDOF()
 				sum[2] > 255 ? 255 : sum[2]
 			};
 
-			finalData[iter(i, j)] = color[0];
-			finalData[iter(i, j) + 1] = color[1];
-			finalData[iter(i, j) + 2] = color[2];
+			blurredData[iter(i, j)] = color[0];
+			blurredData[iter(i, j) + 1] = color[1];
+			blurredData[iter(i, j) + 2] = color[2];
 		}
 	}
+	final = blurred.Copy();
 }

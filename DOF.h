@@ -36,6 +36,7 @@ public:
 	void calculateDOF();	//updajtuje obraz final, ale nie przelicza SAT!!!!!
 
 	wxImage& getOriginalImg();
+	wxImage& getBlurredImg();
 	wxImage& getFinalImg();	
 	
 
@@ -48,6 +49,7 @@ private:
 
 	wxImage original;
 	wxImage depth;
+	wxImage blurred;
 	wxImage final;
 
 	unsigned int ***SAT = nullptr;

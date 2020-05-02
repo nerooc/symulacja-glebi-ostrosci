@@ -239,17 +239,146 @@ Repaint();
 
 void SimGOSymulatorGO::gammaCorrection( wxScrollEvent& event )
 {
-	// TODO: Implement gammaCorrection
+	float gamma = m_slider4->GetValue();
+	gamma /= 50;
+
+	for (int i = 0; i < dof.getFinalImg().GetSize().x; i++)
+	{
+		for (int j = 0; j < dof.getFinalImg().GetSize().y; j++)
+		{
+			float r = dof.getBlurredImg().GetRed(i, j)/255.0;
+			float g = dof.getBlurredImg().GetGreen(i, j)/255.0;
+			float b = dof.getBlurredImg().GetBlue(i, j)/255.0;
+
+			r = pow(r, 1 / gamma) * 255.0;
+			g = pow(g, 1 / gamma) * 255.0;
+			b = pow(b, 1 / gamma) * 255.0;
+
+			dof.getFinalImg().SetRGB(wxRect(wxPoint(i, j), wxSize(1, 1)), (unsigned char)(r), (unsigned char)(g), (unsigned char)(b));
+		}
+	}
 }
 
 void SimGOSymulatorGO::setContrast( wxScrollEvent& event )
 {
-	// TODO: Implement setContrast
+	float val = m_slider5->GetValue() + 30;
+	val /= 50;
+
+	for (int i = 0; i < dof.getFinalImg().GetSize().x; i++)
+	{
+		for (int j = 0; j < dof.getFinalImg().GetSize().y; j++)
+		{
+			float temp = ((dof.getBlurredImg().GetRed(i, j) / 255.0 - 0.5) * val + 0.5) * 255;
+			float r;
+			if (temp < 0)
+			{
+				r = 0;
+			}
+			else if (temp > 255)
+			{
+				r = 255;
+			}
+			else
+			{
+				r = temp;
+			}
+
+			temp = ((dof.getBlurredImg().GetGreen(i, j) / 255.0 - 0.5) * val + 0.5) * 255;
+			float g;
+			if (temp < 0)
+			{
+				g = 0;
+			}
+			else if (temp > 255)
+			{
+				g = 255;
+			}
+			else
+			{
+				g = temp;
+			}
+
+			temp = ((dof.getBlurredImg().GetBlue(i, j) / 255.0 - 0.5) * val + 0.5) * 255;
+			float b;
+
+			if (temp < 0)
+			{
+				b = 0;
+			}
+			else if (temp > 255)
+			{
+				b = 255;
+			}
+			else
+			{
+				b = temp;
+			}
+
+			dof.getFinalImg().SetRGB(wxRect(wxPoint(i, j), wxSize(1, 1)), (unsigned char)(r), (unsigned char)(g), (unsigned char)(b));
+		}
+	}
 }
 
 void SimGOSymulatorGO::setBrightness( wxScrollEvent& event )
 {
-	// TODO: Implement setBrightness
+	if (dof.getFinalImg().IsOk()) 
+	{
+		float  val = m_slider6->GetValue();
+		val /= 60;
+		for (int i = 0; i < dof.getFinalImg().GetSize().x; i++)
+		{
+			for (int j = 0; j < dof.getFinalImg().GetSize().y; j++)
+			{
+				float temp = dof.getBlurredImg().GetRed(i, j) * val;
+				float r;
+				if (temp < 0)
+				{
+					r = 0;
+				}
+				else if (temp > 255)
+				{
+					r = 255;
+				}
+				else
+				{
+					r = temp;
+				}
+
+				temp = dof.getBlurredImg().GetGreen(i, j) * val;
+				float g;
+				if (temp < 0)
+				{
+					g = 0;
+				}
+				else if (temp > 255)
+				{
+					g = 255;
+				}
+				else
+				{
+					g = temp;
+				}
+
+				temp = dof.getBlurredImg().GetBlue(i, j) * val;
+				float b;
+
+				if (temp < 0)
+				{
+					b = 0;
+				}
+				else if (temp > 255)
+				{
+					b = 255;
+				}
+				else
+				{
+					b = temp;
+				}
+
+				dof.getFinalImg().SetRGB(wxRect(wxPoint(i, j), wxSize(1, 1)), (unsigned char)(r), (unsigned char)(g), (unsigned char)(b));
+			}
+		}
+	}
 }
 
 
